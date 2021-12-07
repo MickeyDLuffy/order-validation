@@ -1,0 +1,12 @@
+server:
+  port: 8090
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/trading"
+#    url: "${DATASOURCE_URL}"
+#    username: "${DATASOURCE_USERNAME}"
+    username: broker
+#    password: "${DATASOURCE_PASSWORD}"
+    password: rouge_broker
+  flyway:
+    schemas: trading
