@@ -7,5 +7,4 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ClientServiceImpl {
     private ClientRepo clientService;
-    private
 }
