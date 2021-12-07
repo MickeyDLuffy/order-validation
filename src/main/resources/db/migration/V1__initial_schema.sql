@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS client (
 );
 CREATE TABLE IF NOT EXISTS "user" (
    id UUID NOT NULL PRIMARY KEY,
-   client_id  UUID NOT NULL,
+   client_id  UUID ,
    password VARCHAR(50) NOT NULL,
    role_id UUID
 );
