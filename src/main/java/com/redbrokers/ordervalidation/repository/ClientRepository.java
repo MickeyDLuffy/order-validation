@@ -12,11 +12,11 @@ import java.util.UUID;
 @Repository
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
-      @Query(value = "SELECT b.balance FROM client c JOIN balance b ON b.id = c.balance_id " +
+      @Query(value = "SELECT b.balance FROM {h-schema}client c JOIN {h-schema}balance b ON b.id = c.balance_id " +
               "WHERE c.id = :clientID ", nativeQuery = true)
       double getBalanceForClient(UUID clientID);
 
-      @Query(value = "SELECT a.ticker FROM asset_portfolio JOIN asset a ON a.id = b.asset_id " +
+      @Query(value = "SELECT a.ticker FROM {h-schema}asset_portfolio JOIN {h-schema}asset a ON a.id = b.asset_id " +
               "WHERE b.portfolio_id", nativeQuery = true)
       List<Ticker> getProductsInPortfolio(UUID portfolioId);
 
