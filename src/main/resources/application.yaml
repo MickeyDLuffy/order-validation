@@ -1,6 +1,8 @@
 order-validation:
   api_key: 74b5d31a-f868-4c62-a0d2-425bc3bb1d91
   variables:
+    urls:
+      order-processing: "http://localhost:9090/api/v1/orders"
 
 server:
   port: 8090
@@ -14,3 +16,10 @@ spring:
     password: rouge_broker
   flyway:
     schemas: trading
+    default-schema: trading
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: trading
+#      ddl-auto: validate

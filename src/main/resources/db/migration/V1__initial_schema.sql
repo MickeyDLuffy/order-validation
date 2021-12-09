@@ -10,7 +10,7 @@ CREATE TYPE portfolio_status AS ENUM (
 CREATE TABLE IF NOT EXISTS "order" (
     id UUID NOT NULL PRIMARY KEY,
 --     priority_id UUID NOT NULL,
-    quantity int,
+    cumulative_quantity int,
     client_id UUID NOT NULL,
     status VARCHAR(15),
     ticker VARCHAR(10), -- Product id will b the ticker
@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS asset (
 CREATE TABLE IF NOT EXISTS portfolio (
     id UUID NOT NULL PRIMARY KEY,
     name VARCHAR(100),
-    asset_id UUID,
     client_id UUID,
     created_timestamp TIMESTAMPTZ NOT NULL,
     status PORTFOLIO_STATUS DEFAULT 'OPEN'
@@ -45,6 +44,8 @@ CREATE TABLE IF NOT EXISTS portfolio (
 CREATE TABLE IF NOT EXISTS asset_portfolio (
    asset_id UUID NOT NULL,
    portfolio_id UUID NOT NULL ,
+   asset_quantity int,
+   asset_unit_price decimal,
    PRIMARY KEY (asset_id, portfolio_id)
 );
 CREATE TABLE IF NOT EXISTS balance (
@@ -89,7 +90,7 @@ CREATE TABLE IF NOT EXISTS report (
 -- If a client is deleted, delete all orders the client had in his name
 ALTER TABLE "order" ADD CONSTRAINT order_client_id_fk FOREIGN KEY(client_id) REFERENCES client(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;
 ALTER TABLE order_execution ADD CONSTRAINT order_execution_order_id_fk FOREIGN KEY(order_id) REFERENCES "order"(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;
-ALTER TABLE portfolio ADD CONSTRAINT portfolio_ticker_fk FOREIGN KEY(asset_id) REFERENCES asset(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;
+-- ALTER TABLE portfolio ADD CONSTRAINT portfolio_ticker_fk FOREIGN KEY(asset_id) REFERENCES asset(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;
 ALTER TABLE portfolio ADD CONSTRAINT portfolio_client_id_fk FOREIGN KEY(client_id) REFERENCES client(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;
 ALTER TABLE asset_portfolio ADD CONSTRAINT asset_portfolio_asset_id_fk FOREIGN KEY(asset_id) REFERENCES asset(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;
 ALTER TABLE asset_portfolio ADD CONSTRAINT asset_portfolio_portfolio_id_fk FOREIGN KEY(portfolio_id) REFERENCES portfolio(id) ON UPDATE  CASCADE ON DELETE  CASCADE ;

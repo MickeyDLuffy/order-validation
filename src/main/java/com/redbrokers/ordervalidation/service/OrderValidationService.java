@@ -6,5 +6,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.UUID;
 
 public interface OrderValidationService {
-   ResponseEntity<?> validateAndSendForProcessing(Order order, UUID clientId);
+   ResponseEntity<?> validateAndSendForProcessing(Order order, UUID clientId, UUID portfolioId,
+                                                  UUID API_KEY);
 }

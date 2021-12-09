@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Timestamp;
@@ -19,7 +20,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private UUID balanceId;
-    private OffsetDateTime created_at;
+    private OffsetDateTime createdAt;
     @NonNull
     private String email;
     private int status = 1;
