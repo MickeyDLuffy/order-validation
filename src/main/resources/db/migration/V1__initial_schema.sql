@@ -73,13 +73,13 @@ CREATE TABLE IF NOT EXISTS role (
    id UUID NOT NULL PRIMARY KEY,
    name VARCHAR(50) NOT NULL
 );
-CREATE TABLE IF NOT EXISTS report (
-    id UUID NOT NULL PRIMARY KEY,
-    details JSONB,
-    description TEXT,
-    event_type VARCHAR(100),
-    event_timestamp TIMESTAMPTZ
-);
+-- CREATE TABLE IF NOT EXISTS report (
+--     id UUID NOT NULL PRIMARY KEY,
+--     details JSONB,
+--     description TEXT,
+--     event_type VARCHAR(100),
+--     event_timestamp TIMESTAMPTZ
+-- );
 
 -- Create indexes
 -- CREATE UNIQUE INDEX priority_name_idx ON priority(name);

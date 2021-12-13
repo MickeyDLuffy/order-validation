@@ -24,11 +24,4 @@ public class Client {
     @NonNull
     private String email;
     private int status = 1;
-    /*id UUID NOT NULL PRIMARY KEY,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
-    balance_id UUID,
-    created_at TIMESTAMPTZ NOT NULL,
-    email VARCHAR(100) UNIQUE,
-    status int DEFAULT 1*/
 }
