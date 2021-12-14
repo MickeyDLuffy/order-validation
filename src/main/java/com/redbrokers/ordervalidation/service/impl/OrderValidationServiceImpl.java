@@ -1,10 +1,13 @@
 package com.redbrokers.ordervalidation.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redbrokers.ordervalidation.dto.ErrorMessage;
 import com.redbrokers.ordervalidation.dto.Order;
+import com.redbrokers.ordervalidation.dto.Report;
 import com.redbrokers.ordervalidation.dto.TickerQuantity;
+import com.redbrokers.ordervalidation.enums.EventType;
 import com.redbrokers.ordervalidation.enums.Side;
 import com.redbrokers.ordervalidation.enums.Ticker;
 import com.redbrokers.ordervalidation.exception.ClientNotFoundException;
@@ -13,7 +16,9 @@ import com.redbrokers.ordervalidation.repository.ClientRepository;
 import com.redbrokers.ordervalidation.repository.PortfolioRepository;
 import com.redbrokers.ordervalidation.service.ApiKeyValidationService;
 import com.redbrokers.ordervalidation.service.OrderValidationService;
+import com.redbrokers.ordervalidation.service.RabbitMQPublisher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,6 +38,10 @@ public class OrderValidationServiceImpl implements OrderValidationService {
     private final PortfolioRepository portfolioRepository;
     private final ApiKeyValidationService keyValidationService;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    RabbitMQPublisher rabbitMQPublisher;
+
     @Override
     @Transactional
     public ResponseEntity<?> validateAndSendForProcessing(Order order, UUID clientId,
@@ -88,7 +97,15 @@ public class OrderValidationServiceImpl implements OrderValidationService {
                        .httpStatus(HttpStatus.FORBIDDEN), HttpStatus.FORBIDDEN);
            }
        }
-       return null;
+       //not sure where to log the data
+        try{
+            Report report = new Report("order has successfully been validated", EventType.ORDERVALIDATED);
+            rabbitMQPublisher.publish(report);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private boolean hasSufficientFunds(Order order, UUID clientId) {
